@@ -1,7 +1,5 @@
 package sia.tacocloud.dao;
 
-import org.hibernate.sql.exec.spi.JdbcOperation;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
@@ -13,25 +11,25 @@ import sia.tacocloud.data.model.Taco;
 import sia.tacocloud.data.model.TacosOrder;
 
 import java.sql.Types;
-import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Repository
-public class JDBCOrderRepozirtory implements OrderRepository {
+public class JDBCOrderRepository /*implements OrderRepository*/ {
     private JdbcOperations jdbcOperations;
-    public JDBCOrderRepozirtory(JdbcOperations jdbcOperations) {
+    public JDBCOrderRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 
     @Transactional
     public TacosOrder save(TacosOrder order) {
         PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
-                "INSERT INTO taco_order" + "(delivery_name, delivery_street, delivery_city," +
-                        " delivery_state, delivery_zip, cc_number, cc_expiration, cc_cvv, placed_at) " + "values (?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO tacos_order" + "(delivery_name, delivery_street, delivery_city," +
+                        " delivery_state, delivery_zip, cc_number, cc_expiration, cccvv, placed_at) " + "values (?,?,?,?,?,?,?,?,?)",
                         Types.VARCHAR, Types.VARCHAR , Types.VARCHAR , Types.VARCHAR , Types.VARCHAR,Types.VARCHAR, Types.VARCHAR , Types.VARCHAR, Types.TIMESTAMP);
         pscf.setReturnGeneratedKeys(true);
-        order.setPlacedAt(LocalDate.now());
+        order.setPlacedAt(new Date());
         PreparedStatementCreator psc = pscf.newPreparedStatementCreator (Arrays.asList(
                 order.getDeliveryName(),
                 order.getDeliveryStreet(),
@@ -57,16 +55,16 @@ public class JDBCOrderRepozirtory implements OrderRepository {
     }
 
     private long saveTaco(Long orderId, Taco taco) {
-        taco.setCreateAt(LocalDate.now());
+        taco.setCreateAt(new Date());
         PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory("INSERT INTO taco" +
-                "(name,  taco_order_id, createdAt)" + "values (?, ?, ?)",
-                Types.VARCHAR, Types.BIGINT, Types.TIMESTAMP
+                "(id, create_at, name)" + "values (?, ?, ?)",
+                Types.BIGINT, Types.TIMESTAMP, Types.VARCHAR
                 );
         pscf.setReturnGeneratedKeys(true);
         PreparedStatementCreator psc = pscf.newPreparedStatementCreator(Arrays.asList(
-                taco.getName(),
                 orderId,
-                taco.getCreateAt()
+                taco.getCreateAt(),
+                taco.getName()
         ));
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcOperations.update(psc, keyHolder);
@@ -81,11 +79,10 @@ public class JDBCOrderRepozirtory implements OrderRepository {
         int key = 0;
         for (Ingredients ingredient: ingredients) {
             IngredientRef ingredientRef = new IngredientRef(tacoId, ingredient.getId());
-            jdbcOperations.update("INSERT INTO ingredient_ref(taco_id, ingredient_id)" + "values(?,?)",
+            jdbcOperations.update("INSERT INTO taco_ingredients(taco_id, ingredients_id)" + "values(?,?)",
                     ingredientRef.getTacoId(), ingredientRef.getIngredientId());
 
         }
     }
-
 
 }

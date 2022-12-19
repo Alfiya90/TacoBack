@@ -32,7 +32,7 @@ public class IngredientsDao {
         try{
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            String SQL = "SELECT * FROM ingredient";
+            String SQL = "SELECT * FROM ingredients";
             ResultSet resultSet = statement.executeQuery(SQL);
             while (resultSet.next()){
                 Ingredients ingredient = new Ingredients();
@@ -55,7 +55,7 @@ public class IngredientsDao {
         Ingredients ingredient = new Ingredients();
         try {
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ingredient WHERE id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ingredients WHERE id=?");
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -75,11 +75,11 @@ public class IngredientsDao {
     public TacosOrder saveOrder(TacosOrder order) {
         try{
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO taco_order (" +
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tacos_order (" +
                     "delivery_name, delivery_street, delivery_city, delivery_state, delivery_zip, " +
-                    "cc_number, cc_expiration, cc_cvv, placed_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "cc_number, cc_expiration, cccvv, placed_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS);
-            order.setPlacedAt(LocalDate.now());
+            order.setPlacedAt(new java.util.Date());
             preparedStatement.setString(1, order.getDeliveryName());
             preparedStatement.setString(2, order.getDeliveryStreet());
             preparedStatement.setString(3, order.getDeliveryCity());
@@ -88,7 +88,7 @@ public class IngredientsDao {
             preparedStatement.setString(6, order.getCcNumber());
             preparedStatement.setString(7, order.getCcExpiration());
             preparedStatement.setString(8, order.getCcCVV());
-            preparedStatement.setDate(9, Date.valueOf(order.getPlacedAt()));
+            preparedStatement.setDate(9, new java.sql.Date(order.getPlacedAt().getTime()));
 
             int affectedRows = preparedStatement.executeUpdate();
             if( affectedRows == 0) {
@@ -119,10 +119,10 @@ public class IngredientsDao {
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("" +
-                    "INSERT INTO taco (name, taco_order_id, createdAt)  values (?, ?, ?)");
-            preparedStatement.setString(1,taco.getName());
-            preparedStatement.setLong(2, orderId);
-            preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
+                    "INSERT INTO taco (id, create_at, name)  values (?, ?, ?)");
+            preparedStatement.setLong(1, orderId);
+            preparedStatement.setDate(2, new Date(taco.getCreateAt().getTime()));
+            preparedStatement.setString(3,taco.getName());
 
             int affectedRows = preparedStatement.executeUpdate();
             if( affectedRows == 0) {
@@ -146,7 +146,7 @@ public class IngredientsDao {
     public void saveIngredientRefsDB (Long tacoId, List <Ingredients> ingredients) {
         try {
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO ingredient_ref (taco_id, ingredient_id)" +
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO taco_ingredients (taco_id, ingredients_id)" +
                     "values (?, ?) ");
 
             for (Ingredients ingredient: ingredients) {

@@ -58,12 +58,12 @@ public class DesignTacoController {
                 new Ingredients("SRCR", "Sour Cream", Type.SAUCE)
         );
     }
-    @CrossOrigin
+   /* @CrossOrigin
     @GetMapping("/show")
     List <Ingredients> show() {
         return ingredientsDao.getIngredients();
     }
-
+*/
 
     //реализация через JDBCTemplate
     @CrossOrigin

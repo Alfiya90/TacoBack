@@ -11,6 +11,7 @@ import sia.tacocloud.data.model.Taco;
 import sia.tacocloud.data.model.TacosOrder;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 public class Converter {
@@ -18,7 +19,7 @@ public class Converter {
         Taco taco = new Taco();
 
         BeanUtils.copyProperties(tacoDTO, taco);
-        /*taco.setCreateAt(LocalDate.now());*/
+        taco.setCreateAt(new Date());
         taco.setIngredients(tacoDTO.getIngredientsList().stream().map(ingredientByIdConverter::convert).collect(Collectors.toList()));
         return taco;
     }
@@ -31,7 +32,7 @@ public class Converter {
     public static TacosOrder convert(TacoOrderDTO tacoOrderDTO, IngredientByIdConverter ingredientByIdConverter) {
         TacosOrder tacosOrder = new TacosOrder();
         BeanUtils.copyProperties(tacoOrderDTO, tacosOrder);
-        /*tacosOrder.setPlacedAt(LocalDate.now());*/
+        tacosOrder.setPlacedAt(new Date());
         tacosOrder.setTacos(tacoOrderDTO.getTacos().stream().map(item -> {
             return  convert(item, ingredientByIdConverter);
         }).collect(Collectors.toList()));

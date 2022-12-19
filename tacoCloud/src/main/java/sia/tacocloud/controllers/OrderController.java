@@ -22,6 +22,8 @@ public class OrderController {
     private final OrderRepository orderRepository;
     private final IngredientsDao ingredientsDao;
 
+
+
     @GetMapping("/current")
     public String orderForm() {
         return "orderForm";
@@ -54,10 +56,10 @@ public class OrderController {
         TacosOrder order = Converter.convert(orderDTO, ingredientByIdConverter);
 
         //сохранение через JDBCTemplate
-       // orderRepository.save(order);
+        orderRepository.save(order);
 
         // coxранение через prepareStatement
-        ingredientsDao.saveOrder(order);
+        //ingredientsDao.saveOrder(order);
 
 
         return order;
