@@ -1,12 +1,14 @@
 package sia.tacocloud.data.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
 
+import javax.persistence.*;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,7 @@ public class Taco {
     private Long id;
 
     @NotNull
-    @Size(min = 5, message = "Name must be  at least 5 characters long")
+    @Size(min = 3, message = "Name must be  at least 5 characters long")
     private String name;
 
     private Date createAt;

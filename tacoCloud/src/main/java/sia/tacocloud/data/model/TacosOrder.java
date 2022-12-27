@@ -2,14 +2,15 @@ package sia.tacocloud.data.model;
 
 
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class TacosOrder implements Serializable {
     @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
     private Date placedAt;
-    @NotBlank (message = "Delivery name is required")
+    @NotBlank(message = "Delivery name is required")
     private  String deliveryName;
     @NotBlank (message = "Street is required")
     private  String deliveryStreet;

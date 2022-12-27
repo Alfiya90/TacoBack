@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import sia.tacocloud.data.model.IngredientRef;
 import sia.tacocloud.data.model.Ingredients;
 import sia.tacocloud.data.model.Taco;
 import sia.tacocloud.data.model.TacosOrder;
@@ -80,7 +81,7 @@ public class JDBCOrderRepository /*implements OrderRepository*/ {
         for (Ingredients ingredient: ingredients) {
             IngredientRef ingredientRef = new IngredientRef(tacoId, ingredient.getId());
             jdbcOperations.update("INSERT INTO taco_ingredients(taco_id, ingredients_id)" + "values(?,?)",
-                    ingredientRef.getTacoId(), ingredientRef.getIngredientId());
+                    ingredientRef.getTacoId(), ingredientRef.getIngredientsId());
 
         }
     }

@@ -1,5 +1,6 @@
 package sia.tacocloud.dao;
 import org.springframework.stereotype.Component;
+import sia.tacocloud.data.model.IngredientRef;
 import sia.tacocloud.data.model.Ingredients;
 import sia.tacocloud.data.model.Taco;
 import sia.tacocloud.data.model.TacosOrder;
@@ -152,7 +153,7 @@ public class IngredientsDao {
             for (Ingredients ingredient: ingredients) {
                 IngredientRef ingredientRef = new IngredientRef(tacoId, ingredient.getId());
                 preparedStatement.setLong(1, ingredientRef.getTacoId());
-                preparedStatement.setString(2, ingredientRef.getIngredientId());
+                preparedStatement.setString(2, ingredientRef.getIngredientsId());
             }
 
         } catch (SQLException e) {
