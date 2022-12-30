@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -78,4 +79,9 @@ public class User implements UserDetails {
   return true;
  }
 
+    public  User toUser(PasswordEncoder passwordEncoder) {
+        return new User( username, passwordEncoder.encode(password), fullName,
+                street, city, state, zip, phoneNumber);
+    }
 }
+

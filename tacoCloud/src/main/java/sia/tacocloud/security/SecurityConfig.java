@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
@@ -38,6 +39,7 @@ public class SecurityConfig {
 
     }*/
 
+
     @Bean
     public UserDetailService userDetailService (UserRepository userRepo) {
         return username -> {
@@ -50,13 +52,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
         return http
+                .cors(withDefaults())
+                .csrf()
+                .disable()
                 .authorizeRequests()
-                .antMatchers("/design", "/orders")
-                .hasRole("USER")
-                .antMatchers("/", "/**").permitAll()
+                .antMatchers("/register", "/login").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login") // определяет путь к странице входа
+                .loginPage("/login")// определяет путь к странице входа
                 .and()
                 .build();
        /* return http

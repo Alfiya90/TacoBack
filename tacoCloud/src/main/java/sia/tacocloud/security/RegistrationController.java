@@ -5,8 +5,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sia.tacocloud.dao.UserRepository;
+import sia.tacocloud.service.User;
 
-@CrossOrigin
+import javax.servlet.http.HttpServletResponse;
+
+
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
@@ -24,11 +27,12 @@ public class RegistrationController {
         return "registration";
     }
 
-    @CrossOrigin
+
+
     @PostMapping
-    public  String processRegistration (@RequestBody RegistrationForm registrationForm) {
-        userRepo.save(registrationForm.toUser(passwordEncoder));
-        return "success";
+    public  void processRegistration (@RequestBody User user,  HttpServletResponse response)  {
+        userRepo.save(user.toUser(passwordEncoder));
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
 
