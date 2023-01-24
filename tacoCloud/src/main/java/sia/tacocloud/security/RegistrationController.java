@@ -13,26 +13,28 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/register")
 public class RegistrationController {
 
-    private UserRepository userRepo;
+    /*private UserRepository userRepo;*/
     private PasswordEncoder passwordEncoder;
 
-    public RegistrationController (UserRepository userRepo, PasswordEncoder passwordEncoder) {
+  /*  public RegistrationController (UserRepository userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
-    }
-    @CrossOrigin
+    }*/
+    /*@CrossOrigin
     @GetMapping
     public String registerForm() {
         return "registration";
-    }
+    }*/
 
 
 
-    @PostMapping
+  /*  @PostMapping
     public  void processRegistration (@RequestBody UserDAO user, HttpServletResponse response)  {
         userRepo.save(user.toUser(passwordEncoder));
         response.setStatus(HttpServletResponse.SC_OK);
     }
+*/
+
 
 
 

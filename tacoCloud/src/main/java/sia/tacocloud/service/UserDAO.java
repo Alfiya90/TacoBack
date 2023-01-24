@@ -17,7 +17,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "users")
-public class UserDAO implements UserDetails {
+public class UserDAO /*implements UserDetails*/ {
   private  static final  long serialVersionUID = 1L;
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,6 +41,8 @@ public class UserDAO implements UserDetails {
 
 
 
+
+
   /* public User( String userName, String password, String fullName,
                 String street, String city, String state, String zip, String phoneNumber) {
     this.userName = userName;
@@ -54,7 +56,7 @@ public class UserDAO implements UserDetails {
    };*/
 
 // возвращает набор привилегий пользователя.
- public Collection <? extends GrantedAuthority> getAuthorities() {
+/* public Collection <? extends GrantedAuthority> getAuthorities() {
        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
    }
 
@@ -82,6 +84,6 @@ public class UserDAO implements UserDetails {
     public UserDAO toUser(PasswordEncoder passwordEncoder) {
         return new UserDAO( username, passwordEncoder.encode(password), fullName,
                 street, city, state, zip, phoneNumber);
-    }
+    }*/
 }
 

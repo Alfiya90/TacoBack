@@ -10,16 +10,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sia.tacocloud.dao.UserRepository;
+import sia.tacocloud.data.dto.UserDTO;
 import sia.tacocloud.data.model.AuthenticationRequest;
 import sia.tacocloud.data.model.AuthenticationResponse;
 import sia.tacocloud.service.JwtDAO;
 import sia.tacocloud.service.MyUserDetailsService;
 
 @RestController
+@RequestMapping
 public class AuthenticationController {
     @Autowired
     MyUserDetailsService userDetailsService;
+
 
     @Autowired
     JwtDAO jwtDAO;
@@ -39,5 +44,11 @@ public class AuthenticationController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         String token = jwtDAO.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(token));
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<?> registration(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userDetailsService.save(userDTO));
+
     }
 }
