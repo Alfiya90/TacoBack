@@ -17,7 +17,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "users")
-public class User implements UserDetails {
+public class UserDAO implements UserDetails {
   private  static final  long serialVersionUID = 1L;
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,28 +59,28 @@ public class User implements UserDetails {
    }
 
    //Актуальность аккаунта
- @Override
+
  public boolean isAccountNonExpired() {
   return true;
  }
 
- @Override
+
  public boolean isAccountNonLocked() {
   return false;
  }
 
- @Override
+
  public boolean isCredentialsNonExpired() {
   return true;
  }
 
- @Override
+
  public boolean isEnabled() {
   return true;
  }
 
-    public  User toUser(PasswordEncoder passwordEncoder) {
-        return new User( username, passwordEncoder.encode(password), fullName,
+    public UserDAO toUser(PasswordEncoder passwordEncoder) {
+        return new UserDAO( username, passwordEncoder.encode(password), fullName,
                 street, city, state, zip, phoneNumber);
     }
 }

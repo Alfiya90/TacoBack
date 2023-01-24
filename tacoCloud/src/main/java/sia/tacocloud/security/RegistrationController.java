@@ -1,11 +1,10 @@
 package sia.tacocloud.security;
 
-import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sia.tacocloud.dao.UserRepository;
-import sia.tacocloud.service.User;
+import sia.tacocloud.service.UserDAO;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,7 +29,7 @@ public class RegistrationController {
 
 
     @PostMapping
-    public  void processRegistration (@RequestBody User user,  HttpServletResponse response)  {
+    public  void processRegistration (@RequestBody UserDAO user, HttpServletResponse response)  {
         userRepo.save(user.toUser(passwordEncoder));
         response.setStatus(HttpServletResponse.SC_OK);
     }
