@@ -2,6 +2,7 @@ package sia.tacocloud.controllers;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import sia.tacocloud.common.Converter;
@@ -54,7 +55,10 @@ public class OrderController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public TacosOrder order(@Valid @RequestBody TacoOrderDTO orderDTO) {
+
         TacosOrder order = Converter.convert(orderDTO, ingredientByIdConverter);
+
+
 
         //сохранение через JDBCTemplate
         orderRepository.save(order);
@@ -64,5 +68,51 @@ public class OrderController {
 
 
         return order;
+    }
+    @PutMapping("/{orderId}")
+    public TacosOrder putOrder(@PathVariable ("orderId") Long orderId, @RequestBody TacoOrderDTO orderDTO) {
+        orderDTO.setId(orderId);
+        TacosOrder order = Converter.convert(orderDTO, ingredientByIdConverter);
+        return orderRepository.save(order);
+    }
+
+    @PatchMapping(path="/{orderId}", consumes="application/json")
+    public  TacosOrder patchOrder(@PathVariable("orderId") Long orderId, @RequestBody TacoOrderDTO patchOrderDTO) {
+        TacosOrder patchOrder = Converter.convert(patchOrderDTO, ingredientByIdConverter);
+        TacosOrder order = orderRepository.findById(orderId).get();
+        if(patchOrder.getDeliveryName() != null){
+            order.setDeliveryName(patchOrder.getDeliveryName());
+        }
+        if(patchOrder.getDeliveryStreet() != null) {
+            order.setDeliveryStreet(patchOrder.getDeliveryStreet());
+        }
+        if(patchOrder.getDeliveryCity() != null) {
+            order.setDeliveryCity(patchOrder.getDeliveryCity());
+        }
+        if(patchOrder.getDeliveryState() != null) {
+            order.setDeliveryState(patchOrder.getDeliveryState());
+        }
+        if(patchOrder.getDeliveryZip() != null) {
+            order.setDeliveryZip(patchOrder.getDeliveryZip());
+        }
+        if(patchOrder.getCcNumber() != null) {
+            order.setCcNumber(patchOrder.getCcNumber());
+        }
+        if(patchOrder.getCcExpiration() != null) {
+            order.setCcExpiration(patchOrder.getCcExpiration());
+        }
+        if(patchOrder.getCcCVV() != null) {
+            order.setCcCVV(patchOrder.getCcCVV());
+        }
+        return orderRepository.save(order);
+    }
+
+    @DeleteMapping("/{orderId}")
+    public void deleteOrder(@PathVariable("orderId") Long orderId) {
+        try{
+            orderRepository.deleteById(orderId);
+        } catch (EmptyResultDataAccessException e){
+
+        }
     }
 }

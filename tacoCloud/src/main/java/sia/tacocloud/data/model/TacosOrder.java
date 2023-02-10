@@ -6,6 +6,7 @@ package sia.tacocloud.data.model;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.stereotype.Component;
+import sia.tacocloud.service.UserDAO;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -44,6 +45,9 @@ public class TacosOrder implements Serializable {
     private  String ccCVV;
     @OneToMany (cascade = CascadeType.ALL) // при удалении заказа все связанные с ними тако будут удалены
     private List <Taco> tacos = new ArrayList<>();
+
+   /* @ManyToOne
+    private UserDAO userDAO;*/
 
      public void addTaco(Taco taco) {
          tacos.add(taco);

@@ -17,8 +17,8 @@ import java.util.Map;
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredients> {
- private IngredientRepository ingredientRepository;
- IngredientsDao ingredientsDao;
+    private IngredientRepository ingredientRepository;
+    IngredientsDao ingredientsDao;
 
 
     @Autowired

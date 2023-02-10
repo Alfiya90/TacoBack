@@ -43,6 +43,7 @@ public class AuthenticationController {
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         String token = jwtDAO.generateToken(userDetails);
+
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 

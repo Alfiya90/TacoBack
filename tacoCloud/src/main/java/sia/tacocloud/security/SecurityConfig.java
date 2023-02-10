@@ -53,10 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return  super.authenticationManagerBean();
     }
 
-
-
-
-
   /*  @Bean
     public InMemoryUserDetailsManager userDetailService (PasswordEncoder encoder){
         List <UserDetails> userList = new ArrayList<>();
@@ -67,12 +63,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return  new InMemoryUserDetailsManager(userList);
 
     }*/
-
-
-
-
-
-
 
     public void configure (HttpSecurity http) throws Exception {
         http.cors(withDefaults())

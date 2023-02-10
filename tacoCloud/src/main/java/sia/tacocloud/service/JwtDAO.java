@@ -2,15 +2,29 @@ package sia.tacocloud.service;
 
 import io.jsonwebtoken.*;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import sia.tacocloud.dao.IngredientRepository;
+import sia.tacocloud.dao.IngredientsDao;
+import sia.tacocloud.data.dto.IngredientsDTO;
+import sia.tacocloud.data.dto.TacoDTO;
+import sia.tacocloud.data.dto.TacoOrderDTO;
+import sia.tacocloud.data.dto.UserDTO;
+import sia.tacocloud.data.model.Ingredients;
+import sia.tacocloud.data.model.Taco;
+import sia.tacocloud.data.model.TacosOrder;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @Component
@@ -74,6 +88,5 @@ public class JwtDAO {
         }
         return  roles;
     }
-
 
 }

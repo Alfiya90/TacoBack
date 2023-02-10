@@ -6,15 +6,13 @@ package sia.tacocloud.controllers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import sia.tacocloud.common.Converter;
 import sia.tacocloud.dao.IngredientRepository;
 import sia.tacocloud.dao.IngredientsDao;
 import sia.tacocloud.dao.OrderRepository;
-import sia.tacocloud.data.dto.TacoOrderDTO;
-import sia.tacocloud.data.model.IngredientByIdConverter;
 import sia.tacocloud.data.model.Ingredients;
 import sia.tacocloud.data.model.Ingredients.Type;
 import sia.tacocloud.data.model.TacosOrder;
@@ -71,6 +69,20 @@ public class DesignTacoController {
     public Iterable <Ingredients> ingredientsShow() {
         Iterable <Ingredients> ingr = ingredientRepository.findAll();
         return ingr;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("#{hasRole('ADMIN')}")
+    public Ingredients saveIngredient (Ingredients ingredient) {
+        return ingredientRepository.save(ingredient);
+    }
+
+    @DeleteMapping("ingredient/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("#{hasRole('ADMIN')}")
+    public void deleteIngredient(@PathVariable("id") String ingredientId){
+        ingredientRepository.deleteById(ingredientId);
     }
 
 
