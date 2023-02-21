@@ -71,14 +71,14 @@ public class DesignTacoController {
         return ingr;
     }
 
-    @PostMapping
+    @PostMapping("api/ingredients")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("#{hasRole('ADMIN')}")
     public Ingredients saveIngredient (Ingredients ingredient) {
         return ingredientRepository.save(ingredient);
     }
 
-    @DeleteMapping("ingredient/{id}")
+    @DeleteMapping("api/ingredients/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("#{hasRole('ADMIN')}")
     public void deleteIngredient(@PathVariable("id") String ingredientId){
